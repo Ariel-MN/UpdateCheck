@@ -1,9 +1,9 @@
 {
 	"files": [
 		{
-			"url":"https://github.com/Ariel-MN/UpdateCheck/releases/latest/download/main_program.py",
-			"filename":"main_program.py",
-			"output":"bin/main_program.py"
+			"url":"https://github.com/Ariel-MN/UpdateCheck/releases/latest/download/main_program.pyw",
+			"filename":"main_program.pyw",
+			"output":"bin/main_program.pyw"
 		}
 	]
 }

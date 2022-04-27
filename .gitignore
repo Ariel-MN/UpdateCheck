@@ -1,0 +1,6 @@
+# Ignore generated link
+*.lnk
+
+# Ignore python folders
+__pycache__
+~tmp

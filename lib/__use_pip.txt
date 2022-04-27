@@ -1,0 +1,14 @@
+* Open cmd on this folder
+
+> python -m pip install --upgrade pip
+
+> python -m pip install -r __requirements.txt
+
+> python -m pip install package_name
+
+> python -m pip install package_name --upgrade
+
+
+* Clear env
+
+> python -m pip freeze > __temp.txt && python -m pip uninstall -r __temp.txt -y && del __temp.txt

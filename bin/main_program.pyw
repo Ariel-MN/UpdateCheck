@@ -3,7 +3,7 @@ import os
 import sys
 
 # Current version
-__version__ = "v.1.0.0"
+__version__ = "v1.0.0"
 
 class MainForm(Form):
 

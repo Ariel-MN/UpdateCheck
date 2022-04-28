@@ -6,6 +6,9 @@ import ast
 import sys
 import os
 
+# Base directory of the project
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/"
+
 def ShowMessage(msg, title="Update failed", msg_type=0x00000010):
     return ctypes.windll.user32.MessageBoxW(0, msg, title, msg_type)
 
@@ -14,13 +17,13 @@ def InstallUpdate():
 
     # Configurable parameters
     config_url="https://github.com/Ariel-MN/UpdateCheck/releases/latest/download/update.json"
-    config_output="../etc/update.json"
-    temp_output="../etc/~tmp/"
+    config_output=BASE_DIR+"etc/update.json"
+    temp_output=BASE_DIR+"etc/~tmp/"
 
     try:
         # Create tmp folder
         os.makedirs(temp_output, exist_ok=True)
-        os.system(f"attrib +h {temp_output}")
+        os.popen(f"attrib +h {temp_output}")
 
         # Download config file
         urllib.request.urlretrieve(config_url,config_output)
@@ -36,7 +39,7 @@ def InstallUpdate():
 
         # Move program files to the correct directory
         for f in files:
-            copy2(temp_output+f["filename"],f["output"])
+            copy2(temp_output+f["filename"],BASE_DIR+f["output"])
 
         # Remove tmp folder
         rmtree(temp_output)

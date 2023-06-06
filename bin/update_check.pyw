@@ -59,7 +59,7 @@ def NewUpdate(current_version):
         if current_version != last_version:
             return ShowMessage(msg="Would you like to upgrade now?", title=f"New update available {last_version}", msg_type=0x00000044)==6
     except Exception as e:
-        ShowMessage(f"While checking for new a update, the following error occurred: {e}")
+        ShowMessage(f"While checking for a new update, the following error occurred: {e}")
 
 
 if __name__ == "__main__" and len(sys.argv)>1:

@@ -3,12 +3,18 @@ import os
 import sys
 
 # Current version
-__version__ = "v1.0.0"
+__version__ = "v1.0.1"
+
+# Path of the main script
+ScriptPath = os.path.realpath(__file__)
+
+# Program directory
+AppPath = os.path.dirname(__file__)  
 
 class MainForm(Form):
 
     def __init__(self, owner):
-        self.Caption = "Main Form"
+        self.Caption = f"{Application.Title} - {__version__}"
         self.SetBounds(10, 10, 300, 300)
         self.Position = "poScreenCenter"
 
@@ -29,11 +35,11 @@ class MainForm(Form):
             sys.stdout.flush()
         finally:
             # Kill process and start update
-            os.execl(sys.executable, "../lib/pythonw.exe", "update_check.pyw", __version__)
+            os.execl(sys.executable, os.path.join(AppPath,'..','lib/pythonw.exe'), os.path.join(AppPath,'update_check.pyw'), __version__, ScriptPath)
 
 def main():
     Application.Initialize()
-    Application.Title = "Main program"
+    Application.Title = "Sample App"
     Main = MainForm(Application)
     Main.Show()
     FreeConsole()

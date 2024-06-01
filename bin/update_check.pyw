@@ -6,8 +6,8 @@ import ast
 import sys
 import os
 
-# Base directory of the project
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/"
+# Program directory
+AppPath = os.path.dirname(__file__)  
 
 def ShowMessage(msg, title="Update failed", msg_type=0x00000010):
     return ctypes.windll.user32.MessageBoxW(0, msg, title, msg_type)
@@ -17,13 +17,13 @@ def InstallUpdate():
 
     # Configurable parameters
     config_url="https://github.com/Ariel-MN/UpdateCheck/releases/latest/download/update.json"
-    config_output=BASE_DIR+"etc/update.json"
-    temp_output=BASE_DIR+"etc/~tmp/"
+    config_output=os.path.join(AppPath,'..','etc','update.json')
+    temp_output=os.path.join(AppPath,'..','etc','~tmp')
 
     try:
         # Create tmp folder
         os.makedirs(temp_output, exist_ok=True)
-        os.popen(f"attrib +h {temp_output}")
+        os.system(f"attrib +h {temp_output}")
 
         # Download config file
         urllib.request.urlretrieve(config_url,config_output)
@@ -35,11 +35,11 @@ def InstallUpdate():
 
         # Download update program files
         for f in files:
-            urllib.request.urlretrieve(f["url"],temp_output+f["filename"])
+            urllib.request.urlretrieve(f["url"],os.path.join(temp_output,f["filename"]))
 
         # Move program files to the correct directory
         for f in files:
-            copy2(temp_output+f["filename"],BASE_DIR+f["output"])
+            copy2(os.path.join(temp_output,f["filename"]),os.path.join(AppPath,'..',f["output"]))
 
         # Remove tmp folder
         rmtree(temp_output)
@@ -58,12 +58,19 @@ def NewUpdate(current_version):
 
         if current_version != last_version:
             return ShowMessage(msg="Would you like to upgrade now?", title=f"New update available {last_version}", msg_type=0x00000044)==6
+        else:
+            ShowMessage(msg=f"Program version {last_version} is up to date!", title="No Updates Available", msg_type=0x00000040)
+            return False
     except Exception as e:
-        ShowMessage(f"While checking for a new update, the following error occurred: {e}")
+        ShowMessage(f"While checking for new a update, the following error occurred: {e}")
 
 
 if __name__ == "__main__" and len(sys.argv)>1:
-    if NewUpdate(sys.argv[1]):
+    
+    program_curr_version = sys.argv[1]
+    program_path = sys.argv[2]
+    
+    if NewUpdate(program_curr_version):
         InstallUpdate()
 
     try:
@@ -71,4 +78,4 @@ if __name__ == "__main__" and len(sys.argv)>1:
         sys.stdout.flush()
     finally:
         # Kill process and start main program
-        os.execl(sys.executable, "../lib/pythonw.exe", "main_program.pyw")
+        os.execl(sys.executable, os.path.join(AppPath,'..','lib','pythonw.exe'), program_path)

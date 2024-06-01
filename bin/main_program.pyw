@@ -3,7 +3,7 @@ import os
 import sys
 
 # Current version
-__version__ = "v1.0.2"
+__version__ = "v1.0.1"
 
 # Path of the main script
 ScriptPath = os.path.realpath(__file__)
